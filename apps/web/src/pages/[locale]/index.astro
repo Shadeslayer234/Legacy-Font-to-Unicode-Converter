@@ -1,0 +1,42 @@
+---
+import Base from "../../layouts/Base.astro";
+import Converter from "../../components/Converter.tsx";
+import { m } from "../../paraglide/messages.js";
+
+export function getStaticPaths() {
+  return ["si", "ta", "en"].map((locale) => ({ params: { locale } }));
+}
+
+const locale = Astro.params.locale as "si" | "ta" | "en";
+const t = (fn: (inputs: {}, options: { locale: typeof locale }) => string) => fn({}, { locale });
+
+const labels = {
+  fontLabel: t(m.font_label),
+  inputLabel: t(m.input_label),
+  inputPlaceholder: t(m.input_placeholder),
+  outputLabel: t(m.output_label),
+  copy: t(m.copy),
+  copied: t(m.copied),
+  swap: t(m.swap),
+  noFonts: t(m.no_fonts),
+};
+---
+
+<Base locale={locale} title={t(m.title)} description={t(m.tagline)}>
+  <h1>{t(m.title)}</h1>
+  <p class="tagline">{t(m.tagline)}</p>
+  <Converter client:load labels={labels} />
+  <p class="privacy">{t(m.privacy)}</p>
+</Base>
+
+<style>
+  .tagline {
+    color: var(--muted);
+    margin: 0 0 var(--space-5);
+  }
+  .privacy {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: var(--space-5);
+  }
+</style>

@@ -1,0 +1,79 @@
+---
+import "@fontsource/noto-sans-sinhala/400.css";
+import "@fontsource/noto-sans-sinhala/600.css";
+import "@fontsource/noto-sans-tamil/400.css";
+import "@fontsource/noto-sans-tamil/600.css";
+import "../styles/global.css";
+
+interface Props {
+  locale: string;
+  title: string;
+  description: string;
+}
+
+const { locale, title, description } = Astro.props;
+const languages = [
+  { code: "si", label: "සිංහල" },
+  { code: "ta", label: "தமிழ்" },
+  { code: "en", label: "English" },
+];
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#9a3412" />
+    {languages.map((l) => <link rel="alternate" hreflang={l.code} href={new URL(`/${l.code}/`, Astro.site)} />)}
+  </head>
+  <body>
+    <header class="top">
+      <nav aria-label="Language">
+        {
+          languages.map((l) => (
+            <a href={`/${l.code}/`} lang={l.code} aria-current={l.code === locale ? "page" : undefined}>
+              {l.label}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <script>
+      import { registerSW } from "virtual:pwa-register";
+      registerSW({ immediate: true });
+    </script>
+  </body>
+</html>
+
+<style>
+  .top {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--space-3) var(--space-4);
+  }
+  nav {
+    display: flex;
+    gap: var(--space-3);
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  nav a[aria-current="page"] {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 var(--space-4) var(--space-6);
+  }
+</style>

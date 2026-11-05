@@ -1,0 +1,20 @@
+---
+// Root URL: send visitors to their browser's language, Sinhala by default.
+---
+
+<!doctype html>
+<html lang="si">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Legacy Font to Unicode Converter</title>
+    <noscript><meta http-equiv="refresh" content="0; url=/si/" /></noscript>
+    <script is:inline>
+      var l = (navigator.language || "").slice(0, 2);
+      location.replace("/" + (l === "ta" || l === "en" ? l : "si") + "/");
+    </script>
+  </head>
+  <body>
+    <a href="/si/">සිංහල</a> · <a href="/ta/">தமிழ்</a> · <a href="/en/">English</a>
+  </body>
+</html>

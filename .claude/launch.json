@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web-preview",
+      "runtimeExecutable": "corepack",
+      "runtimeArgs": ["pnpm", "--filter", "web", "preview"],
+      "port": 4321
+    },
+    {
+      "name": "web-dev",
+      "runtimeExecutable": "corepack",
+      "runtimeArgs": ["pnpm", "--filter", "web", "dev"],
+      "port": 4321
+    }
+  ]
+}

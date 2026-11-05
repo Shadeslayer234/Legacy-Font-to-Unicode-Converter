@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lk-unicode/converter/mappings/schema.json",
+  "title": "Legacy font mapping",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "script", "fonts", "map"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "name": { "type": "string", "minLength": 1 },
+    "script": { "enum": ["sinh", "taml"] },
+    "fonts": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "parent": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "map": {
+      "type": "object",
+      "propertyNames": { "minLength": 1 },
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

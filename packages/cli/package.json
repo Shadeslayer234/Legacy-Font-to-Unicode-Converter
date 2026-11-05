@@ -1,0 +1,23 @@
+{
+  "name": "@lk-unicode/cli",
+  "version": "0.0.0",
+  "description": "Command-line converter for legacy Sinhala/Tamil font text and .docx files.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "lk-unicode": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@lk-unicode/core": "workspace:*",
+    "@lk-unicode/docx": "workspace:*",
+    "@xmldom/xmldom": "^0.9.12"
+  }
+}

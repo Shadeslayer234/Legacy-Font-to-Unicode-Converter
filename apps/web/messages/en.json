@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "title": "Legacy Font to Unicode Converter",
+  "tagline": "Turn text typed in FM, DL or Bamini fonts into Unicode that works everywhere.",
+  "font_label": "Font",
+  "input_label": "Legacy font text",
+  "input_placeholder": "Paste your text here",
+  "output_label": "Unicode result",
+  "copy": "Copy",
+  "copied": "Copied",
+  "swap": "Reverse direction",
+  "no_fonts": "Font tables have not been added yet.",
+  "privacy": "Your text never leaves your browser."
+}
