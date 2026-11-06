@@ -18,6 +18,7 @@
     },
     "parent": { "type": "string", "pattern": "^[a-z0-9-]+$" },
     "map": {
+      "description": "Legacy characters (as typed) to Unicode, in typed order; the engine moves pre-base vowel signs. Use U+E000 for a repaya glyph typed after its consonant.",
       "type": "object",
       "propertyNames": { "minLength": 1 },
       "additionalProperties": { "type": "string" }

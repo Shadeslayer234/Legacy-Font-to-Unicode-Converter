@@ -39,7 +39,21 @@ A font that differs only slightly from its family sets `"parent"` and lists
 only the entries that differ. CI validates every mapping file against the schema.
 
 Mapping tables must be written from the font files themselves, not copied from
-other converters, so the project can stay MIT-licensed.
+other converters, so the project can stay MIT-licensed. To see what a font
+draws for each key, render a labelled sheet of its glyphs (needs Pillow):
+
+```bash
+python packages/core/scripts/glyph-sheet.py path/to/FMAbhaya.ttf fm-abhaya.png
+```
+
+It also prints the font's family name, which goes in the mapping's `fonts` list.
+
+Map values are written in the order the glyphs are typed; the engine moves
+pre-base vowel signs (ෙ, ெ, ே, ை) after their consonant and NFC-normalizes.
+Two kombuvas typed before a consonant become ෛ.
+
+Add real text with its checked Unicode to `packages/core/test/samples/<id>.json`
+(an array of `{ "legacy", "unicode", "source" }`); every sample runs as a test.
 
 ## Releasing
 

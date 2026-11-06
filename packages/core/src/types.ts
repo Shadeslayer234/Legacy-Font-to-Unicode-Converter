@@ -17,7 +17,10 @@ export interface FontMapping {
   fonts: string[];
   /** Id of a mapping this one extends; only differing entries are listed. */
   parent?: string;
-  /** Legacy sequence → Unicode. */
+  /**
+   * Legacy sequence → Unicode. A repaya glyph typed after its consonant maps
+   * to U+E000 (REPAYA_MARK); the engine moves it in front as ර්‍.
+   */
   map: Record<string, string>;
 }
 
