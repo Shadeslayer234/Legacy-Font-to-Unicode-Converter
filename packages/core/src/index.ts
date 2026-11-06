@@ -1,13 +1,15 @@
 import { createConverter, resolveMapping, type Converter } from "./engine.js";
 import type { ConvertOptions, FontMapping, ToLegacyOptions } from "./types.js";
 import fm from "../mappings/fm.json" with { type: "json" };
+import dl from "../mappings/dl.json" with { type: "json" };
+import bamini from "../mappings/bamini.json" with { type: "json" };
 
 export type { ConvertOptions, FontMapping, Script, ToLegacyOptions } from "./types.js";
 export { createConverter, resolveMapping } from "./engine.js";
 export { reorder, REPAYA_MARK } from "./reorder.js";
 
-// One import per mappings/*.json file. DL and Bamini arrive in Week 2.
-const BUILT_IN: FontMapping[] = [fm as FontMapping];
+// One import per mappings/*.json file.
+const BUILT_IN = [fm, dl, bamini] as FontMapping[];
 
 const registry = new Map<string, FontMapping>(BUILT_IN.map((m) => [m.id, m]));
 const cache = new Map<string, Converter>();

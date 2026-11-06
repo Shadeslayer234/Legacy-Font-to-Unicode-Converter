@@ -1,6 +1,7 @@
 ---
+import { listMappings } from "@lk-unicode/core";
 import Base from "../../layouts/Base.astro";
-import Converter from "../../components/Converter.tsx";
+import Converter, { LABEL_KEYS, type ConverterLabels } from "../../components/Converter.tsx";
 import { m } from "../../paraglide/messages.js";
 
 export function getStaticPaths() {
@@ -8,35 +9,107 @@ export function getStaticPaths() {
 }
 
 const locale = Astro.params.locale as "si" | "ta" | "en";
-const t = (fn: (inputs: {}, options: { locale: typeof locale }) => string) => fn({}, { locale });
+type Message = (inputs: never, options: { locale: typeof locale }) => string;
+// char_count keeps its {count} placeholder; the component fills it in.
+const t = (key: keyof typeof m) => (m[key] as Message)({ count: "{count}" } as never, { locale });
 
-const labels = {
-  fontLabel: t(m.font_label),
-  inputLabel: t(m.input_label),
-  inputPlaceholder: t(m.input_placeholder),
-  outputLabel: t(m.output_label),
-  copy: t(m.copy),
-  copied: t(m.copied),
-  swap: t(m.swap),
-  noFonts: t(m.no_fonts),
-};
+const labels = Object.fromEntries(LABEL_KEYS.map((k) => [k, t(k)])) as ConverterLabels;
+
+const fonts = listMappings().map((mapping) => ({
+  name: mapping.name,
+  script: t(mapping.script === "taml" ? "script_taml" : "script_sinh"),
+  fonts: mapping.fonts.join(", "),
+}));
 ---
 
-<Base locale={locale} title={t(m.title)} description={t(m.tagline)}>
-  <h1>{t(m.title)}</h1>
-  <p class="tagline">{t(m.tagline)}</p>
-  <Converter client:load labels={labels} />
-  <p class="privacy">{t(m.privacy)}</p>
+<Base locale={locale} title={t("title")} brand={t("brand")} description={t("tagline")}>
+  <h1>{t("title")}</h1>
+  <p class="tagline">{t("tagline")}</p>
+
+  <Converter client:load labels={labels} locale={locale} />
+
+  <div class="info">
+    <section>
+      <h2>{t("how_title")}</h2>
+      <ol class="steps">
+        <li>{t("how_step1")}</li>
+        <li>{t("how_step2")}</li>
+        <li>{t("how_step3")}</li>
+      </ol>
+    </section>
+    <section>
+      <h2>{t("fonts_title")}</h2>
+      <ul class="font-list">
+        {
+          fonts.map((f) => (
+            <li>
+              <strong lang="en">{f.name}</strong> <span class="script">· {f.script}</span>
+              <span class="covers" lang="en">{f.fonts}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+
+  <Fragment slot="footer">
+    <p>{t("privacy")} {t("offline")}</p>
+  </Fragment>
 </Base>
 
 <style>
   .tagline {
     color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 60ch;
     margin: 0 0 var(--space-5);
   }
-  .privacy {
+  .info {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    margin-top: var(--space-6);
+  }
+  .steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    align-items: start;
+  }
+  .steps li::before {
+    content: counter(step);
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+  .font-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .script {
     color: var(--muted);
-    font-size: 0.9rem;
-    margin-top: var(--space-5);
+  }
+  .covers {
+    display: block;
+    color: var(--muted);
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
   }
 </style>

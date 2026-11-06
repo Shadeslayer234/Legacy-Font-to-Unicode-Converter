@@ -51,6 +51,13 @@ describe("reorder (Tamil)", () => {
     expect(reorder(T_E + ksha, "taml")).toBe(ksha + T_E);
   });
 
+  it("joins ெ + ள into ௌ only when the ள has no sign of its own", () => {
+    const LLA = "ள"; // ள
+    expect(reorder(T_E + T_KA + LLA, "taml")).toBe(T_KA + "ௌ");
+    expect(reorder(T_E + T_KA + LLA + "ு", "taml")).toBe(T_KA + T_E + LLA + "ு");
+    expect(reorder(T_E + " " + LLA, "taml")).toBe(T_E + " " + LLA);
+  });
+
   it("only rearranges characters, never adds or drops them", () => {
     const alphabet = fc.constantFrom(T_KA, T_SSA, T_VIRAMA, T_E, "ே", "ை", "ா", " ");
     fc.assert(

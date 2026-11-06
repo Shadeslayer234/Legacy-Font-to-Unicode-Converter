@@ -77,7 +77,37 @@ const RULES: Record<Script, ScriptRules> = {
  */
 export function reorder(text: string, script: Script): string {
   const moved = movePrebase(Array.from(text), RULES[script]);
-  return (script === "sinh" ? moveRepaya(moved) : moved).join("");
+  return (script === "sinh" ? moveRepaya(moved) : joinTamilAu(moved)).join("");
+}
+
+const TAML_E = "ெ"; // ெ
+const TAML_LLA = "ள"; // ள
+const TAML_AU = "ௌ"; // ௌ
+const isTamlSign = (ch: string | undefined) => ch !== undefined && ch >= "ா" && ch <= "்"; // ா … ்
+
+/**
+ * Legacy Tamil fonts have no ௌ glyph: கௌ is typed ெ + க + ள, which after
+ * moving the ெ reads க + ெ + ள. Join those into ௌ, unless the ள carries a
+ * vowel sign or pulli of its own and so is a real letter (கெளுத்தி).
+ */
+function joinTamilAu(chars: string[]): string[] {
+  const out: string[] = [];
+  for (let i = 0; i < chars.length; i++) {
+    const prev = out[out.length - 1];
+    if (
+      chars[i] === TAML_E &&
+      chars[i + 1] === TAML_LLA &&
+      !isTamlSign(chars[i + 2]) &&
+      prev !== undefined &&
+      RULES.taml.isConsonant(prev)
+    ) {
+      out.push(TAML_AU);
+      i += 1;
+    } else {
+      out.push(chars[i]!);
+    }
+  }
+  return out;
 }
 
 function movePrebase(chars: string[], rules: ScriptRules): string[] {

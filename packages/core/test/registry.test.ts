@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { convert, listMappings, mappingForFont, registerMapping } from "../src/index.js";
 
 describe("registry", () => {
-  it("ships the FM mapping", () => {
-    expect(listMappings().map((m) => m.id)).toContain("fm");
+  it("ships the FM, DL and Bamini mappings", () => {
+    expect(listMappings().map((m) => m.id)).toEqual(expect.arrayContaining(["fm", "dl", "bamini"]));
   });
 
   it("finds a mapping by font name however Word spells it", () => {
