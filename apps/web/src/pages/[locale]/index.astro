@@ -2,6 +2,7 @@
 import { listMappings } from "@lk-unicode/core";
 import Base from "../../layouts/Base.astro";
 import Converter, { LABEL_KEYS, type ConverterLabels } from "../../components/Converter.tsx";
+import DocxConverter, { DOCX_LABEL_KEYS, type DocxLabels } from "../../components/DocxConverter.tsx";
 import { m } from "../../paraglide/messages.js";
 
 export function getStaticPaths() {
@@ -10,10 +11,11 @@ export function getStaticPaths() {
 
 const locale = Astro.params.locale as "si" | "ta" | "en";
 type Message = (inputs: never, options: { locale: typeof locale }) => string;
-// char_count keeps its {count} placeholder; the component fills it in.
-const t = (key: keyof typeof m) => (m[key] as Message)({ count: "{count}" } as never, { locale });
+// Placeholders such as {count} are kept for the components to fill in.
+const t = (key: keyof typeof m) => (m[key] as Message)({ count: "{count}", fonts: "{fonts}" } as never, { locale });
 
 const labels = Object.fromEntries(LABEL_KEYS.map((k) => [k, t(k)])) as ConverterLabels;
+const docxLabels = Object.fromEntries(DOCX_LABEL_KEYS.map((k) => [k, t(k)])) as DocxLabels;
 
 const fonts = listMappings().map((mapping) => ({
   name: mapping.name,
@@ -27,6 +29,7 @@ const fonts = listMappings().map((mapping) => ({
   <p class="tagline">{t("tagline")}</p>
 
   <Converter client:load labels={labels} locale={locale} />
+  <DocxConverter client:load labels={docxLabels} />
 
   <div class="info">
     <section>

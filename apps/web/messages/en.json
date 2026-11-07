@@ -27,5 +27,17 @@
   "how_step3": "Copy the Unicode result into any app, website or document.",
   "fonts_title": "Supported fonts",
   "privacy": "Your text never leaves your browser.",
-  "offline": "Once loaded, the converter also works offline."
+  "offline": "Once loaded, the converter also works offline.",
+  "docx_title": "Convert a Word file (.docx)",
+  "docx_hint": "Fonts are detected automatically. English text, formatting, tables, headers and footers stay as they are.",
+  "docx_choose": "Choose a .docx file",
+  "docx_drop": "or drop it here",
+  "docx_working": "Converting…",
+  "docx_done": "Converted the {fonts} text to Unicode.",
+  "docx_kept": "Left unchanged: {fonts}",
+  "docx_download": "Download the converted file",
+  "docx_none": "No FM, DL or Bamini text was found in this file.",
+  "docx_legacy_doc": "This is an old .doc file. Open it in Word, choose File → Save As → Word Document (.docx), then try again.",
+  "docx_not_docx": "This isn't a .docx Word document, or the file is damaged.",
+  "docx_failed": "The file couldn't be converted."
 }

@@ -55,6 +55,28 @@ Two kombuvas typed before a consonant become ෛ.
 Add real text with its checked Unicode to `packages/core/test/samples/<id>.json`
 (an array of `{ "legacy", "unicode", "source" }`); every sample runs as a test.
 
+## Word files
+
+```bash
+node packages/cli/dist/cli.js letter.docx      # writes letter.unicode.docx
+```
+
+```ts
+import { convertDocx } from "@lk-unicode/docx";
+const { data, report } = convertDocx(bytes); // in Node, pass { xml: { DOMParser, XMLSerializer } } from @xmldom/xmldom
+```
+
+Each run's font is found the way Word finds it: the run, its character style,
+the paragraph style chain, the document defaults and theme fonts. Runs in a
+font with a mapping are converted and switched to Iskoola Pota (Sinhala) or
+Latha (Tamil), change with `unicodeFonts`. Bold, italic and size are copied to
+Word's complex-script settings, which Sinhala and Tamil use. Words that Word
+split across runs are converted as one piece, and the cut is moved to a
+syllable boundary so each run keeps its formatting. Headers, footers,
+footnotes, endnotes, comments and text boxes are included; styles that name a
+legacy font are switched too. Old `.doc` files throw a `DocxError` with code
+`legacy-doc`. Not handled yet: list numbering text and table-style fonts.
+
 ## Releasing
 
 `pnpm changeset` to describe a change; merging to `main` opens a version PR,

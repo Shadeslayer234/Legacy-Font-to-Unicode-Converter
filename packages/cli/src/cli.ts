@@ -39,7 +39,16 @@ function main(): void {
   if (input?.toLowerCase().endsWith(".docx")) {
     const out = values.out ?? input.replace(/\.docx$/i, ".unicode.docx");
     const xml = { DOMParser, XMLSerializer } as unknown as XmlImpl;
-    writeFileSync(out, convertDocx(readFileSync(input), { xml }));
+    const { data, report } = convertDocx(readFileSync(input), { xml });
+    for (const use of report.fonts) {
+      const what = use.mapping ? `converted (${use.mapping})` : "left as is";
+      console.error(`  ${use.font}: ${use.runs} run${use.runs === 1 ? "" : "s"}, ${what}`);
+    }
+    if (!report.parts.length) {
+      console.error("No FM, DL or Bamini text found; nothing written.");
+      process.exit(2);
+    }
+    writeFileSync(out, data);
     console.error(`Wrote ${out}`);
     return;
   }
