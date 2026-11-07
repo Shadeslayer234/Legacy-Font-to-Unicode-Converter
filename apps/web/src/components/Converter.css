@@ -45,10 +45,17 @@
   border-color: var(--accent);
 }
 
+/* The radio covers the whole chip, invisibly, so a click anywhere on it lands on the input. */
 .font-option input {
   position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: inherit;
   opacity: 0;
-  pointer-events: none;
+  cursor: pointer;
 }
 
 .font-option:has(input:checked) {
