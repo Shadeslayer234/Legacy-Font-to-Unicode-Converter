@@ -63,6 +63,9 @@ importers:
       '@vite-pwa/workbox-window':
         specifier: ^8.0.13
         version: 8.0.13
+      fflate:
+        specifier: ^0.8.3
+        version: 0.8.3
       magicast:
         specifier: ^0.5.5
         version: 0.5.5
@@ -96,9 +99,16 @@ importers:
 
   packages/docx:
     dependencies:
+      '@lk-unicode/core':
+        specifier: workspace:*
+        version: link:../core
       fflate:
         specifier: ^0.8.3
         version: 0.8.3
+    devDependencies:
+      '@xmldom/xmldom':
+        specifier: ^0.9.12
+        version: 0.9.12
 
 packages:
 

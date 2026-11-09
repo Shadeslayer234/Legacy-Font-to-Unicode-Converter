@@ -7,12 +7,12 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "pnpm -r --filter ./packages/** build && pnpm --filter web build",
-    "test": "pnpm -r test",
-    "typecheck": "pnpm -r typecheck",
-    "dev": "pnpm --filter web dev",
+    "build": "node scripts/pnpm.mjs -r --filter ./packages/** build && node scripts/pnpm.mjs --filter web build",
+    "test": "node scripts/pnpm.mjs -r test",
+    "typecheck": "node scripts/pnpm.mjs -r typecheck",
+    "dev": "node scripts/pnpm.mjs --filter web dev",
     "changeset": "changeset",
-    "release": "pnpm -r --filter ./packages/** build && changeset publish"
+    "release": "node scripts/pnpm.mjs -r --filter ./packages/** build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",

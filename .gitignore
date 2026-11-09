@@ -7,3 +7,7 @@ playwright-report/
 *.log
 .DS_Store
 apps/web/project.inlang/cache/
+
+# Legacy font files are not MIT-licensed; keep them out of the repo.
+*.ttf
+*.otf
